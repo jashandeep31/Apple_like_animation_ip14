@@ -38,24 +38,31 @@
         <script>
             const canvas = document.getElementById("mainCanvas");
             const context = canvas.getContext("2d");
-            const image = new Image();
             const width = window.innerWidth;
             const height = window.innerHeight;
             const h1 = document.querySelector(".Dynamic");
             canvas.width = width;
             canvas.height = height;
-            image.src = "./images/i_00000.jpg";
-            image.onload = () => {
-                context.drawImage(image, 0, 0, width, height);
+            const arrayImages = [];
+            for (let i = 0; i <= 205; i++) {
+                let image = new Image();
+                image.src = `./images/i_${String(i).padStart(5, "0")}.jpg`;
+                arrayImages[i] = image;
+            }
+            window.onload = function () {
+                context.drawImage(
+                    arrayImages[Math.round(window.scrollY / 10)],
+                    0,
+                    0,
+                    width,
+                    height
+                );
             };
+
             window.onscroll = function () {
                 const scroll = Math.round(window.scrollY / 10);
-                if (scroll < 208) {
-                    image.src = `./images/i_${String(scroll).padStart(
-                        5,
-                        "0"
-                    )}.jpg`;
-                    context.drawImage(image, 0, 0, width, height);
+                if (scroll < 205) {
+                    context.drawImage(arrayImages[scroll], 0, 0, width, height);
                     h1.style.fontSize = `${scroll + 10}px`;
                     if (scroll > 101 && scroll < 115) {
                         h1.style.opacity = `${scroll / 1000}`;
