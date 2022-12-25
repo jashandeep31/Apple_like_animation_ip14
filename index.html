@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Apple animation</title>
+    </head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap");
+        body {
+            height: 500vh;
+            font-family: "Poppins", sans-serif;
+        }
+        canvas {
+            border: 1px solid black;
+            position: fixed;
+        }
+        .Dynamic {
+            position: fixed;
+            top: 50%;
+            text-align: center;
+            width: 100%;
+            color: white;
+            font-size: 10px;
+            z-index: 10;
+            transform: translateY(-50%);
+        }
+    </style>
+    <body>
+        <canvas id="mainCanvas"></canvas>
+        <h1 class="Dynamic">Dynamic Island</h1>
+        <script>
+            const canvas = document.getElementById("mainCanvas");
+            const context = canvas.getContext("2d");
+            const image = new Image();
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const h1 = document.querySelector(".Dynamic");
+            canvas.width = width;
+            canvas.height = height;
+            image.src = "./images/i_00000.jpg";
+            image.onload = () => {
+                context.drawImage(image, 0, 0, width, height);
+            };
+            window.onscroll = function () {
+                const scroll = Math.round(window.scrollY / 10);
+                if (scroll < 208) {
+                    image.src = `./images/i_${String(scroll).padStart(
+                        5,
+                        "0"
+                    )}.jpg`;
+                    context.drawImage(image, 0, 0, width, height);
+                    h1.style.fontSize = `${scroll + 10}px`;
+                    if (scroll > 101 && scroll < 115) {
+                        h1.style.opacity = `${scroll / 1000}`;
+                    } else if (scroll > 115) {
+                        h1.style.opacity = 0;
+                    } else {
+                        h1.style.opacity = 1;
+                    }
+                }
+            };
+        </script>
+    </body>
+</html>
